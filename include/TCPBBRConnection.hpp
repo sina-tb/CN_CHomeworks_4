@@ -3,7 +3,7 @@
 
 #include "TCP.hpp"
 
-class TCPBBRConnection : private TCP {
+class TCPBBRConnection : public TCP {
 private:
     int _cwnd;       //Congestion window
     int _ssthresh;   // Slow start threshold
@@ -13,7 +13,9 @@ public:
 
     // Reno algorithm
     TCPBBRConnection(int cwnd, int ssthresh, int rtt);
-    vector<int> SendData();    
+    ~TCPBBRConnection();
+
+    // vector<int> SendData();    
     int onPacketLoss(); 
     int onRTTUpdate();
 

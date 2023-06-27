@@ -15,13 +15,15 @@ private:
 public:
 
     TCP(int cwnd, int ssthresh, int rtt);
+    virtual ~TCP() {}
+
     virtual vector<int> SendData();    
     virtual int onPacketLoss() = 0; 
     virtual int onRTTUpdate() = 0;
-
+    // virtual void adjustParameters(){
 
     // New Reno algorithm function
-    virtual int onSelectiveAck(){   };
+    virtual int onSelectiveAck();
     
 };
 

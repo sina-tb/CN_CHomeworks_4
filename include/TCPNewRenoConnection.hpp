@@ -3,7 +3,7 @@
 
 #include "TCP.hpp"
 
-class TCPNewRenoConnection : private TCP {
+class TCPNewRenoConnection : public TCP {
 private:
     int _cwnd;       //Congestion window
     int _ssthresh;   // Slow start threshold
@@ -13,7 +13,8 @@ public:
 
     // Reno algorithm
     TCPNewRenoConnection(int cwnd, int ssthresh, int rtt);
-    vector<int> SendData();    
+    ~TCPNewRenoConnection();
+    // vector<int> SendData();    
     int onPacketLoss(); 
     int onRTTUpdate();
 
@@ -21,7 +22,6 @@ public:
     // New Reno algorithm function
     int onSelectiveAck();
 
-    
 };
 
 #endif

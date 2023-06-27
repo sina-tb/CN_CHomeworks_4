@@ -3,10 +3,11 @@
 
 #include "TCP.hpp"
 
+#include <vector>
+
 using namespace std;
 
-
-class TCPRenoConnection : private TCP {
+class TCPRenoConnection : public TCP {
 private:
     int _cwnd;       //Congestion window
     int _ssthresh;   // Slow start threshold
@@ -16,14 +17,14 @@ public:
 
     // Reno algorithm
     TCPRenoConnection(int cwnd, int ssthresh, int rtt);
-    vector<int> SendData();    
+    ~TCPRenoConnection();
+
+    // vector<int> SendData();    
     int onPacketLoss(); 
     int onRTTUpdate();
 
-
     // New Reno algorithm function
     int onSelectiveAck();
-
     
 };
 

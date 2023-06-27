@@ -8,7 +8,7 @@ TCPNewRenoConnection.o\
 SRC=./src/
 INC=./include/
 
-OUT: $(OBJS)
+$(OUT): $(OBJS) main.cpp
 	$(CPPFLAGS) $(OBJS) main.cpp -o $@ 
 
 TCP.o: $(SRC)TCP.cpp $(INC)TCP.hpp
@@ -18,7 +18,7 @@ TCPRenoConnection.o: $(SRC)TCPRenoConnection.cpp $(INC)TCPRenoConnection.hpp
 	$(CPPFLAGS) -c $(SRC)TCPRenoConnection.cpp -o $@
 
 TCPNewRenoConnection.o: $(SRC)TCPNewRenoConnection.cpp $(INC)TCPNewRenoConnection.hpp
-	$(CPPFLAGS) -c ($SRC)TCPNewRenoConnection.cpp -o $@
+	$(CPPFLAGS) -c $(SRC)TCPNewRenoConnection.cpp -o $@
 
 TCPBBRConnection.o: $(SRC)TCPBBRConnection.cpp $(INC)TCPBBRConnection.hpp
 	$(CPPFLAGS) -c $(SRC)TCPBBRConnection.cpp -o $@
