@@ -20,6 +20,7 @@ public:
     ~TCPRenoConnection();
 
     // vector<int> SendData();    
+    void adjustParameters();
     int onPacketLoss(); 
     int onRTTUpdate();
 

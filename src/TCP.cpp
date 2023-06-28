@@ -23,7 +23,6 @@ vector<int> TCP::SendData()
     if((rand() % (INT16_MAX)) < _cwnd*2)
     {
         cout << "timeout occured!" << endl;
-        _cwnd = 1;
         return sent;
     }    
 
@@ -42,7 +41,6 @@ vector<int> TCP::SendData()
             sent.push_back(i);
         }
     }
-    _cwnd *= 2;
     return sent;
 }
 

@@ -16,6 +16,7 @@ public:
     ~TCPBBRConnection();
 
     // vector<int> SendData();    
+    void adjustParameters();
     int onPacketLoss(); 
     int onRTTUpdate();
 

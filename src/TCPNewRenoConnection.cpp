@@ -21,6 +21,11 @@ int TCPNewRenoConnection::onSelectiveAck()
     return 0;
 }
 
+void TCPNewRenoConnection::adjustParameters()
+{
+    // to do
+}
+
 TCPNewRenoConnection::~TCPNewRenoConnection()
 {
        

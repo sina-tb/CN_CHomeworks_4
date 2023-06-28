@@ -27,6 +27,11 @@ int TCPRenoConnection::onSelectiveAck()
     return 0;
 }
 
+void TCPRenoConnection::adjustParameters()
+{
+    // to do
+}
+
 TCPRenoConnection::~TCPRenoConnection()
 {
 

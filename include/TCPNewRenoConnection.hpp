@@ -14,7 +14,9 @@ public:
     // Reno algorithm
     TCPNewRenoConnection(int cwnd, int ssthresh, int rtt);
     ~TCPNewRenoConnection();
-    // vector<int> SendData();    
+
+    // vector<int> SendData();
+    void adjustParameters();    
     int onPacketLoss(); 
     int onRTTUpdate();
 

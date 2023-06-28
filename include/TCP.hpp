@@ -20,7 +20,7 @@ public:
     virtual vector<int> SendData();    
     virtual int onPacketLoss() = 0; 
     virtual int onRTTUpdate() = 0;
-    // virtual void adjustParameters(){
+    virtual void adjustParameters() = 0;
 
     // New Reno algorithm function
     virtual int onSelectiveAck();

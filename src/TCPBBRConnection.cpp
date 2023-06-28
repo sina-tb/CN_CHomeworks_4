@@ -21,6 +21,12 @@ int TCPBBRConnection::onSelectiveAck()
     return 0;
 }
 
+void TCPBBRConnection::adjustParameters()
+{
+    // to do
+}
+
+
 TCPBBRConnection::~TCPBBRConnection()
 {
 
