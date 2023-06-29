@@ -19,7 +19,7 @@ public:
     virtual ~TCP() {}
 
     virtual vector<int> SendData();    
-    virtual int onPacketLoss() = 0; 
+    virtual vector<int> onPacketLoss(const vector<int> sent); 
     virtual int onRTTUpdate() = 0;
     virtual void adjustParameters() = 0;
 

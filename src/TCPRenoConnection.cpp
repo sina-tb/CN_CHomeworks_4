@@ -27,10 +27,33 @@ int TCPRenoConnection::onSelectiveAck()
     return 0;
 }
 
-void TCPRenoConnection::adjustParameters()
+void TCPRenoConnection::adjustParameters(const vector<int> sent)
 {
-    // to do
+    // time out
+    if(sent.empty())
+    {
+        _ssthresh = _cwnd/2;
+        _cwnd = 1;
+        return;
+    }
+
+    if(sent.size() != _cwnd) // packet loss has occured
+    {
+        _cwnd = _ssthresh/2;
+        return;
+    }
+    if(_cwnd < _ssthresh)
+    {
+        _cwnd *= 2;
+    }
+    else
+    {
+        _cwnd += 1;
+    }
 }
+
+void TCPRenoConnection::adjustParameters()
+{   }
 
 TCPRenoConnection::~TCPRenoConnection()
 {

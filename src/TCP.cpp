@@ -29,7 +29,6 @@ vector<int> TCP::SendData()
         return sent;
     }    
     
-    
     if(_cwnd < _ssthresh)
     {
         int i;
@@ -48,23 +47,45 @@ vector<int> TCP::SendData()
                 sent.push_back(i + _seqNum);
             }
         }
-        _seqNum = i++;
-    }
-    else
-    {
-        srand(time(0));
-        if((rand() % 100) + 1 <= PACKET_LOSS)
-        {
-            cout << "Packet Loss on packet: " << _seqNum << endl;
-        }
-        else
-        {
-            sent.push_back(_seqNum);
-        }
-        _seqNum++;
+        _seqNum += i;
     }
     
     return sent;
+}
+
+vector<int> TCP::onPacketLoss(const vector<int> sent)
+{
+    vector<int> lostPackets;
+    if(sent.empty())
+    {
+        return lostPackets;
+    }
+    // Missing packets from the beginning
+    int firstPackets = sent[0] - (_seqNum - _cwnd);
+    for(int f = 0; f < firstPackets; f++)
+    {
+        lostPackets.push_back((_seqNum - _cwnd) + f);
+    }
+    // Missing packets from middle
+    int i = 1;
+    while(i < sent.size())
+    {
+        if(sent[i] - sent[i-1] > 1)
+        {
+            for(int j = 0; j < sent[i]-sent[i-1]; j++)
+            {
+                lostPackets.push_back(sent[i] + j + 1);
+            }
+        }
+        i++;
+    }
+    // Missing packets from the end
+    while(i < _cwnd)
+    {
+        lostPackets.push_back((_seqNum - _cwnd) + i);
+        i++;
+    }
+
 }
 
 int TCP::onSelectiveAck()
