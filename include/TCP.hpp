@@ -10,7 +10,8 @@ class TCP {
 private:
     int _cwnd;       //Congestion window
     int _ssthresh;   // Slow start threshold
-    int _rtt;        // ROund-trip time
+    int _rtt;        // Round-trip time
+    int _seqNum;     // Packet sequence number 
 
 public:
 

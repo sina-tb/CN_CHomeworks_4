@@ -10,7 +10,10 @@ TCP::TCP(int cwnd, int ssthresh, int rtt) :
     _cwnd(cwnd),
     _ssthresh(ssthresh),
     _rtt(rtt)
-{ srand(time(0)); }
+{
+    srand(time(0));
+    _seqNum = 0;
+}
 
 /// @brief 
 // Will be used for all of the tcp extensions if not needed to be implemented differently 
@@ -25,22 +28,42 @@ vector<int> TCP::SendData()
         cout << "timeout occured!" << endl;
         return sent;
     }    
-
-    // packet loss
-    for(int i = _cwnd; i < _cwnd*2; i++)
+    
+    
+    if(_cwnd < _ssthresh)
     {
-        srand(time(0) + 123 * i);
-        if(rand() % 100 + 1 <= PACKET_LOSS)
+        int i;
+        for(i = 0; i < _cwnd; i++)
         {
-            cout << "packet loss on packet: " << i << endl;
-            continue;
+            // packet loss
+            srand(time(0) + 123 * i);
+            if((rand() % 100) + 1 <= PACKET_LOSS)
+            {
+                cout << "Packet Loss on packet: " << i << endl;
+                continue;
+            }
+            else
+            {
+                // cout << "packet: " << i << "sent" << endl;
+                sent.push_back(i + _seqNum);
+            }
+        }
+        _seqNum = i++;
+    }
+    else
+    {
+        srand(time(0));
+        if((rand() % 100) + 1 <= PACKET_LOSS)
+        {
+            cout << "Packet Loss on packet: " << _seqNum << endl;
         }
         else
         {
-            // cout << "packet: " << i << "sent" << endl;
-            sent.push_back(i);
+            sent.push_back(_seqNum);
         }
+        _seqNum++;
     }
+    
     return sent;
 }
 
