@@ -12,11 +12,6 @@ TCPRenoConnection::TCPRenoConnection(int cwnd, int ssthresh, int rtt)
 {   }
 
 
-int TCPRenoConnection::onRTTUpdate()
-{
-    return 0;
-}
-
 void TCPRenoConnection::fastRetransmission()
 {       
     if(_lostPackets.empty())
@@ -31,9 +26,10 @@ void TCPRenoConnection::fastRetransmission()
     {
         _isOnRestransmitThisRTT = false;
     }
+    _total_sent++;
 }
 
 TCPRenoConnection::~TCPRenoConnection()
 {
-
+    
 }

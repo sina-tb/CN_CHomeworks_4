@@ -16,7 +16,6 @@ public:
     ~TCPRenoConnection();
 
     void fastRetransmission();
-    int onRTTUpdate();
     
 };
 

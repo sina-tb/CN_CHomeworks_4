@@ -8,15 +8,10 @@ TCPNewRenoConnection::TCPNewRenoConnection(int cwnd, int ssthresh, int rtt)
     : TCP(cwnd, ssthresh, rtt)
 {   }
 
-
-int TCPNewRenoConnection::onRTTUpdate()
-{
-    return 0;
-}
-
 void TCPNewRenoConnection::fastRetransmission()
 {
     _isOnRestransmitThisRTT = false;
+    _total_sent += _lostPackets.size();
     for(int rPack : _lostPackets)
     {
         cout << "packet: " << rPack

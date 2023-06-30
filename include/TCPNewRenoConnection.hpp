@@ -13,7 +13,6 @@ public:
     ~TCPNewRenoConnection();
 
     void fastRetransmission();     
-    int onRTTUpdate();
 
 };
 

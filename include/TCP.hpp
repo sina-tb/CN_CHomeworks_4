@@ -14,6 +14,7 @@ protected:
     int _rtt;        // Round-trip time
     int _seqNum;     // Packet sequence number
     vector<int> _lostPackets;
+    int _total_sent{0};
 
 public:
 
@@ -26,7 +27,7 @@ public:
     virtual vector<int> onPacketLoss(const vector<int> sent);
     virtual void fastRetransmission(){}
     virtual void adjustParameters(const vector<int> sent); 
-    virtual int onRTTUpdate() = 0;
+    virtual void onRTTUpdate(int RTT);
     void printSessionDetails(const vector<int> sent);
 
 };
