@@ -2,13 +2,8 @@
 #include <algorithm>
 #include <iostream>
 #include <vector>
-<<<<<<< HEAD
 #include <climits>
 #include <cmath>
-=======
-#include <cmath>
-#include <climits>
->>>>>>> 9ac6930a07500e169a3cf22e77fbff96e196f136
 #include "../include/TCPBBRConnection.hpp"
 
 using namespace std;

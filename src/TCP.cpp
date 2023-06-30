@@ -51,7 +51,7 @@ vector<int> TCP::SendData()
             }
             else
             {
-                // cout << "packet: " << i << "sent" << endl;
+                cout << "packet: " << i << "sent" << endl;
                 sent.push_back(i + _seqNum);
             }
         }
