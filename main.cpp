@@ -15,12 +15,11 @@ int main()
     T2->onRTTUpdate(8000);
     srand(time(0));
     T3->onRTTUpdate(8000);
-    // TCPNewRenoConnection* T3 = new TCPNewRenoConnection(20, 200, 200);
     
     
     //examine BBR protocol
-    //TCPBBRConnection* T4 = new TCPBBRConnection();
-    //T4->examine_simulation(200, 0.1);
+    // TCPBBRConnection* T4 = new TCPBBRConnection();
+    // T4->examine_simulation(200, 0.1);
     
     
     

@@ -4,7 +4,7 @@
 #include <ctime>
 #include <iostream>
 
-const int PACKET_LOSS = 4;
+const int PACKET_LOSS = 15;
 
 TCP::TCP(int cwnd, int ssthresh, int rtt) :
     _cwnd(cwnd),
@@ -24,7 +24,7 @@ vector<int> TCP::SendData()
     vector<int> sent;
     srand(time(0));
     // timeout
-    if((rand() % ((INT16_MAX) / 2)) < _cwnd*2)
+    if((rand() % ((INT16_MAX) / 32)) < _cwnd*2)
     {
         cout << "timeout occured!" << endl;
         return sent;
@@ -114,6 +114,11 @@ void TCP::adjustParameters(const vector<int> sent)
     // time out
     if(sent.empty())
     {
+        if(_cwnd >= _ssthresh)
+        {
+            _cwnd /= 2;
+            return;
+        }
         _ssthresh = _cwnd/2;
         _cwnd = 1;
         return;
