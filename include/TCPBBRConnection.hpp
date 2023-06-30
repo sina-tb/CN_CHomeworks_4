@@ -21,10 +21,10 @@ public:
 
     TCPBBRConnection();
     void packet_sent();
-    void handle_ack_packet(bool is_lost);
+    void lostPacketHandler(bool is_lost);
     void simulation(int num_packets, float packet_loss_rate);
     vector<Packet> create_packets(int num_packets, double packet_loss_rate);
-    void examine_simulation();
+    void examine_simulation(int num_packets, double packet_loss_rate);
 
 private:
    

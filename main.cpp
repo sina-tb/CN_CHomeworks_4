@@ -30,6 +30,14 @@ int main()
             
     }
     // TCPNewRenoConnection* T3 = new TCPNewRenoConnection(20, 200, 200);
-    // TCPBBRConnection* T4 = new TCPBBRConnection(20, 200, 200);
+    
+    
+    //examine BBR protocol
+    //TCPBBRConnection* T4 = new TCPBBRConnection();
+    //T4->examine_simulation(200, 0.1);
+    
+    
+    
+    
     return 0;
 }
