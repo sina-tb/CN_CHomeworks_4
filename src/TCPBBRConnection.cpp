@@ -2,22 +2,21 @@
 #include <algorithm>
 #include <iostream>
 #include <vector>
+#include <cmath>
+#include <climits>
 #include "../include/TCPBBRConnection.hpp"
-
-#define FAST_START false
 
 using namespace std;
 
 
 TCPBBRConnection:: TCPBBRConnection()
 {
-    cwnd = 80;
+    cwnd = 100;
     ssthresh = INT_MAX;
     rtt_ = 1;
     min_rtt = 0;
     round_start_time = chrono::steady_clock::now();
-    next_send_time = round_start_time + chrono::microseconds(
-            static_cast<int>(cwnd * 1000000.0 / rtt_));
+    next_send_time = round_start_time + chrono::microseconds(static_cast<int>(cwnd * 1000000.0 / rtt_));
 }
 
 void TCPBBRConnection::packet_sent()
@@ -27,7 +26,7 @@ void TCPBBRConnection::packet_sent()
 } 
 
 
-void TCPBBRConnection::handle_ack_packet(bool is_lost)
+void TCPBBRConnection::lostPacketHandler(bool is_lost)
 {
     if(!is_lost)
     {
@@ -45,8 +44,8 @@ void TCPBBRConnection::handle_ack_packet(bool is_lost)
         }
 
         float bytes_acked = cwnd * rtt / min_rtt;
-        float k = pow(cwnd, 3.0 / 4.0) / sqrt(bytes_acked * 0.9 + cwnd * cwnd * 0.1);
-        cwnd += k;
+        float amount = pow(cwnd, 3.0 / 4.0) / sqrt(bytes_acked * 0.9 + cwnd * cwnd * 0.1);
+        cwnd += amount;
         cwnd = min(cwnd, ssthresh);
         round_start_time = now;
     }
@@ -94,21 +93,20 @@ void TCPBBRConnection::simulation(int num_packets, float packet_loss_rate)
         packet_sent();
         Packet packet = packets[i];
         if (packet.is_lost)
-            cout <<"packet number" << packet.seq_num << "is lost"<<endl;
+            cout <<"packet number " << packet.seq_num << " is lost"<<endl;
+        lostPacketHandler(packet.is_lost);
         cout << "the window size: " <<  int(cwnd) << endl;
-        handle_ack_packet(packet.is_lost);
     }
-
     
 }
 
-void TCPBBRConnection::examine_simulation() {
+void TCPBBRConnection::examine_simulation(int num_packets, double packet_loss_rate) {
     
     auto start = chrono::high_resolution_clock::now();
     srand(time(NULL));
-    simulation(200, 0.2);
+    simulation(num_packets, packet_loss_rate);
     auto stop = chrono::high_resolution_clock::now();
     auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
  
-    cout << "Time taken by function: "<< duration.count() << " microseconds" << endl;
+    cout << "Time :"<< duration.count() << "microsecends" << endl;
 }
