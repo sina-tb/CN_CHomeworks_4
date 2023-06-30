@@ -1,5 +1,7 @@
 #include "../include/TCPNewRenoConnection.hpp"
+#include<iostream>
 
+using namespace std;
 class TCP;
 
 TCPNewRenoConnection::TCPNewRenoConnection(int cwnd, int ssthresh, int rtt)
@@ -18,6 +20,13 @@ int TCPNewRenoConnection::onRTTUpdate()
 
 int TCPNewRenoConnection::onSelectiveAck()
 {
+    _isOnRestransmitThisRTT = false;
+    for(int rPack : _lostPackets)
+    {
+        cout << "packet: " << rPack
+            <<": Retransmited!" << endl;
+    }
+    _lostPackets.clear();
     return 0;
 }
 
