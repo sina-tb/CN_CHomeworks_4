@@ -11,10 +11,6 @@ TCPRenoConnection::TCPRenoConnection(int cwnd, int ssthresh, int rtt)
     : TCP(cwnd, ssthresh, rtt)
 {   }
 
-int TCPRenoConnection::onPacketLoss()
-{
-    return 0;
-}
 
 int TCPRenoConnection::onRTTUpdate()
 {

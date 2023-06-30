@@ -8,11 +8,6 @@
 using namespace std;
 
 class TCPRenoConnection : public TCP {
-private:
-    int _cwnd;       //Congestion window
-    int _ssthresh;   // Slow start threshold
-    int _rtt;        // ROund-trip time
-    int _seqNum;     // Packet sequence number
 
 public:
 
@@ -22,8 +17,7 @@ public:
 
     // vector<int> SendData();    
     void adjustParameters(const vector<int> sent);
-    void adjustParameters();
-    int onPacketLoss(); 
+    void adjustParameters(); 
     int onRTTUpdate();
 
     // New Reno algorithm function
