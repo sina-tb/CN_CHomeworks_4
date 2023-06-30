@@ -7,12 +7,13 @@ using namespace std;
 
 
 class TCP {
-private:
+
+protected:
     int _cwnd;       //Congestion window
     int _ssthresh;   // Slow start threshold
     int _rtt;        // Round-trip time
     int _seqNum;     // Packet sequence number
-    vector<int> _lostPackets; 
+    vector<int> _lostPackets;
 
 public:
 
