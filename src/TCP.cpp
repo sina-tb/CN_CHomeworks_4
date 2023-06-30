@@ -46,6 +46,7 @@ vector<int> TCP::SendData()
             if((rand() % 100) + 1 <= PACKET_LOSS)
             {
                 cout << "Packet Loss on packet: " << i << endl;
+                _lostPackets.push_back(i + _seqNum);
                 continue;
             }
             else
@@ -97,14 +98,19 @@ vector<int> TCP::onPacketLoss(const vector<int> sent)
 }
 
 void TCP::fastRetransmission()
-{
-    _isOnRestransmitThisRTT = false;
-    for(int rPack : _lostPackets)
+{       
+    if(_lostPackets.empty())
     {
-        cout << "packet: " << rPack
-            <<": Retransmited!" << endl;
+        _isOnRestransmitThisRTT = false;
+        return;
     }
-    _lostPackets.clear();
+    cout << "packet: " << *(_lostPackets.begin())
+        << ": Retransmited!" << endl;
+    _lostPackets.erase(_lostPackets.begin());
+    if(_lostPackets.empty())
+    {
+        _isOnRestransmitThisRTT = false;
+    }
 }
 
 int TCP::onSelectiveAck()
