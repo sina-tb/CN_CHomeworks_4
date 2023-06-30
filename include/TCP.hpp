@@ -24,14 +24,11 @@ public:
 
     virtual vector<int> SendData();    
     virtual vector<int> onPacketLoss(const vector<int> sent);
-    virtual void fastRetransmission(); 
+    virtual void fastRetransmission(){}
+    virtual void adjustParameters(const vector<int> sent); 
     virtual int onRTTUpdate() = 0;
-    virtual void adjustParameters() = 0;
+    void printSessionDetails(const vector<int> sent);
 
-    // New Reno algorithm function
-    virtual int onSelectiveAck();
-
-    
 };
 
 #endif

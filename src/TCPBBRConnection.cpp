@@ -2,6 +2,8 @@
 #include <algorithm>
 #include <iostream>
 #include <vector>
+#include <climits>
+#include <cmath>
 #include "../include/TCPBBRConnection.hpp"
 
 #define FAST_START false

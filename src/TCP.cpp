@@ -24,7 +24,7 @@ vector<int> TCP::SendData()
     vector<int> sent;
     srand(time(0));
     // timeout
-    if((rand() % (INT16_MAX)) < _cwnd*2)
+    if((rand() % (INT8_MAX)) < _cwnd*2)
     {
         cout << "timeout occured!" << endl;
         return sent;
@@ -45,7 +45,7 @@ vector<int> TCP::SendData()
             srand(time(0) + 123 * i);
             if((rand() % 100) + 1 <= PACKET_LOSS)
             {
-                cout << "Packet Loss on packet: " << i << endl;
+                cout << "Packet Loss on packet: " << i + _seqNum << endl;
                 _lostPackets.push_back(i + _seqNum);
                 continue;
             }
@@ -97,23 +97,43 @@ vector<int> TCP::onPacketLoss(const vector<int> sent)
     return lostPackets;
 }
 
-void TCP::fastRetransmission()
-{       
-    if(_lostPackets.empty())
-    {
-        _isOnRestransmitThisRTT = false;
-        return;
-    }
-    cout << "packet: " << *(_lostPackets.begin())
-        << ": Retransmited!" << endl;
-    _lostPackets.erase(_lostPackets.begin());
-    if(_lostPackets.empty())
-    {
-        _isOnRestransmitThisRTT = false;
-    }
+void TCP::printSessionDetails(const vector<int> sent)
+{
+    cout << "data sent: " << sent.size()
+        << "  cwnd: " << _cwnd 
+        << "  ssthresh: " << _ssthresh;
+        if(_cwnd < _ssthresh)
+        {
+            cout << "  mode: slow start" << endl; 
+        }
+        else
+        {
+            cout << "  mode: AIMD" << endl; 
+        }
 }
 
-int TCP::onSelectiveAck()
+void TCP::adjustParameters(const vector<int> sent)
 {
-    return 0;
+    // time out
+    if(sent.empty())
+    {
+        _ssthresh = _cwnd/2;
+        _cwnd = 1;
+        return;
+    }
+
+    if(sent.size() != _cwnd) // packet loss has occured
+    {
+        _cwnd = min(_ssthresh/2, _cwnd/2);
+        _isOnRestransmitThisRTT = true;
+        return;
+    }
+    if(_cwnd < _ssthresh)
+    {
+        _cwnd *= 2;
+    }
+    else
+    {
+        _cwnd += 1;
+    }
 }

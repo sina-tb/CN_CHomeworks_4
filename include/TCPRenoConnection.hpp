@@ -15,13 +15,8 @@ public:
     TCPRenoConnection(int cwnd, int ssthresh, int rtt);
     ~TCPRenoConnection();
 
-    // vector<int> SendData();    
-    void adjustParameters(const vector<int> sent);
-    void adjustParameters(); 
+    void fastRetransmission();
     int onRTTUpdate();
-
-    // New Reno algorithm function
-    int onSelectiveAck();
     
 };
 

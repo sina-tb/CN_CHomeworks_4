@@ -17,40 +17,21 @@ int TCPRenoConnection::onRTTUpdate()
     return 0;
 }
 
-int TCPRenoConnection::onSelectiveAck()
-{
-    cout << "does not have a SACK Method!" << endl;
-    return 0;
-}
-
-void TCPRenoConnection::adjustParameters(const vector<int> sent)
-{
-    // time out
-    if(sent.empty())
+void TCPRenoConnection::fastRetransmission()
+{       
+    if(_lostPackets.empty())
     {
-        _ssthresh = _cwnd/2;
-        _cwnd = 1;
+        _isOnRestransmitThisRTT = false;
         return;
     }
-
-    if(sent.size() != _cwnd) // packet loss has occured
+    cout << "packet: " << *(_lostPackets.begin())
+        << ": Retransmited!" << endl;
+    _lostPackets.erase(_lostPackets.begin());
+    if(_lostPackets.empty())
     {
-        _cwnd = min(_ssthresh/2, _cwnd/2);
-        _isOnRestransmitThisRTT = true;
-        return;
-    }
-    if(_cwnd < _ssthresh)
-    {
-        _cwnd *= 2;
-    }
-    else
-    {
-        _cwnd += 1;
+        _isOnRestransmitThisRTT = false;
     }
 }
-
-void TCPRenoConnection::adjustParameters()
-{   }
 
 TCPRenoConnection::~TCPRenoConnection()
 {

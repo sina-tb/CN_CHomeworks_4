@@ -23,8 +23,10 @@ int main()
         {
             vector<int> sent = T2->SendData();
             // T2->onPacketLoss(sent);
+            T2->printSessionDetails(sent);
             T2->adjustParameters(sent);
         }
+        cout << "----------" << endl;
             
     }
     // TCPNewRenoConnection* T3 = new TCPNewRenoConnection(20, 200, 200);

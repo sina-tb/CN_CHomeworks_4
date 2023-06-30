@@ -12,14 +12,8 @@ public:
     TCPNewRenoConnection(int cwnd, int ssthresh, int rtt);
     ~TCPNewRenoConnection();
 
-    // vector<int> SendData();
-    void adjustParameters();    
-    int onPacketLoss(); 
+    void fastRetransmission();     
     int onRTTUpdate();
-
-
-    // New Reno algorithm function
-    int onSelectiveAck();
 
 };
 

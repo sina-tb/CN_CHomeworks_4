@@ -8,17 +8,13 @@ TCPNewRenoConnection::TCPNewRenoConnection(int cwnd, int ssthresh, int rtt)
     : TCP(cwnd, ssthresh, rtt)
 {   }
 
-int TCPNewRenoConnection::onPacketLoss()
-{
-    return 0;
-}
 
 int TCPNewRenoConnection::onRTTUpdate()
 {
     return 0;
 }
 
-int TCPNewRenoConnection::onSelectiveAck()
+void TCPNewRenoConnection::fastRetransmission()
 {
     _isOnRestransmitThisRTT = false;
     for(int rPack : _lostPackets)
@@ -27,12 +23,7 @@ int TCPNewRenoConnection::onSelectiveAck()
             <<": Retransmited!" << endl;
     }
     _lostPackets.clear();
-    return 0;
-}
-
-void TCPNewRenoConnection::adjustParameters()
-{
-    // to do
+    return;
 }
 
 TCPNewRenoConnection::~TCPNewRenoConnection()
