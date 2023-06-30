@@ -18,7 +18,8 @@ struct Packet
 class TCPBBRConnection {
 
 public:
-
+    int total_rtt;
+    int total_packets;
     TCPBBRConnection();
     void packet_sent();
     void lostPacketHandler(bool is_lost);
