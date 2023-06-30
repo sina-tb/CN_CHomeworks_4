@@ -21,6 +21,7 @@ void BBR::updateBandwidthEstimate() {
 } 
 
 void BBR::simulate() { 
+    
     double time = 0.0; 
     double bandwidth = 1.0;
 
