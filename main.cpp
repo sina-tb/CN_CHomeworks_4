@@ -22,7 +22,7 @@ int main()
         else
         {
             vector<int> sent = T2->SendData();
-            T2->onPacketLoss(sent);
+            // T2->onPacketLoss(sent);
             T2->adjustParameters(sent);
         }
             
