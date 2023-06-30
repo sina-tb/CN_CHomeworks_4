@@ -15,8 +15,16 @@ int main()
     {
         cout << "iteration: " << i 
             << ":" << endl;
-        T2->adjustParameters();
-        T2->SendData();
+        if(T2->_isOnRestransmitThisRTT)
+        {
+            T2->fastRetransmission();
+        }
+        else
+        {
+            T2->SendData();
+            T2->adjustParameters();
+        }
+            
     }
     // TCPNewRenoConnection* T3 = new TCPNewRenoConnection(20, 200, 200);
     // TCPBBRConnection* T4 = new TCPBBRConnection(20, 200, 200);

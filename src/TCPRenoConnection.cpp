@@ -40,6 +40,7 @@ void TCPRenoConnection::adjustParameters(const vector<int> sent)
     if(sent.size() != _cwnd) // packet loss has occured
     {
         _cwnd = _ssthresh/2;
+        _isOnRestransmitThisRTT = true;
         return;
     }
     if(_cwnd < _ssthresh)

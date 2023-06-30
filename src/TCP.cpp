@@ -13,6 +13,7 @@ TCP::TCP(int cwnd, int ssthresh, int rtt) :
 {
     srand(time(0));
     _seqNum = 0;
+    _isOnRestransmitThisRTT = false;
 }
 
 /// @brief 
@@ -29,6 +30,12 @@ vector<int> TCP::SendData()
         return sent;
     }    
     
+    if(_isOnRestransmitThisRTT)
+    {
+        // although it wasn't timeout 
+        return sent;    
+    }
+
     if(_cwnd < _ssthresh)
     {
         int i;
@@ -85,7 +92,19 @@ vector<int> TCP::onPacketLoss(const vector<int> sent)
         lostPackets.push_back((_seqNum - _cwnd) + i);
         i++;
     }
+    _lostPackets = lostPackets;
+    return lostPackets;
+}
 
+void TCP::fastRetransmission()
+{
+    _isOnRestransmitThisRTT = false;
+    for(int rPack : _lostPackets)
+    {
+        cout << "packet: " << rPack
+            <<": Retransmited!" << endl;
+    }
+    _lostPackets.clear();
 }
 
 int TCP::onSelectiveAck()

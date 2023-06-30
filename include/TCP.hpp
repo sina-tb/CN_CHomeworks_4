@@ -11,20 +11,25 @@ private:
     int _cwnd;       //Congestion window
     int _ssthresh;   // Slow start threshold
     int _rtt;        // Round-trip time
-    int _seqNum;     // Packet sequence number 
+    int _seqNum;     // Packet sequence number
+    vector<int> _lostPackets; 
 
 public:
+
+    bool _isOnRestransmitThisRTT;
 
     TCP(int cwnd, int ssthresh, int rtt);
     virtual ~TCP() {}
 
     virtual vector<int> SendData();    
-    virtual vector<int> onPacketLoss(const vector<int> sent); 
+    virtual vector<int> onPacketLoss(const vector<int> sent);
+    virtual void fastRetransmission(); 
     virtual int onRTTUpdate() = 0;
     virtual void adjustParameters() = 0;
 
     // New Reno algorithm function
     virtual int onSelectiveAck();
+
     
 };
 
