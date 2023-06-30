@@ -1,31 +1,41 @@
+#include <chrono>
+#include <algorithm>
+#include <iostream>
+#include <vector>
 
-#include <iostream> 
-#include <vector> 
-#include <algorithm> 
- 
-struct Packet { 
-    double sendTime; 
-    double arrivalTime; 
-    double bandwidthEstimate; 
-}; 
- 
-class BBR { 
-public: 
+#define FAST_START false
 
-    
-    void simulate(); 
-    void updateBandwidthEstimate();
-    int start_simulation();
-    void print_result();
-    BBR(double st, double ps, double pd, double qd);
+using namespace std;
+
+struct Packet
+{
+    int seq_num;
+    int ack_num;
+    double rtt;
+    bool is_lost;
+};
+
+class TCPBBRConnection {
+
+public:
+
+    TCPBBRConnection();
+    void packet_sent();
+    void handle_ack_packet(bool is_lost);
+    void simulation(int num_packets, float packet_loss_rate);
+    vector<Packet> create_packets(int num_packets, double packet_loss_rate);
+    void examine_simulation();
+
+private:
+   
+    float cwnd;
+    float ssthresh;
+    float rtt_;
+    float min_rtt;
+
+    chrono::time_point<chrono::steady_clock> round_start_time;
+    chrono::time_point<chrono::steady_clock> next_send_time;
+};
 
 
-private: 
-    double simulationTime = 10.0; 
-    double packetSize = 1000.0; 
-    double propagationDelay = 0.001; // Simulated propagation delay 
-    double queueingDelay = 0.002;    // Simulated queueing delay 
-    std::vector<Packet> packetsToSend; 
-    std::vector<Packet> packetsReceived; 
-}; 
- 
+
