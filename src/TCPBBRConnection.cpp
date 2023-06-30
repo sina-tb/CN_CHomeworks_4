@@ -17,6 +17,8 @@ TCPBBRConnection:: TCPBBRConnection()
     min_rtt = 0;
     round_start_time = chrono::steady_clock::now();
     next_send_time = round_start_time + chrono::microseconds(static_cast<int>(cwnd * 1000000.0 / rtt_));
+    total_rtt = 0;
+    total_packets = 0;
 }
 
 void TCPBBRConnection::packet_sent()
@@ -77,9 +79,11 @@ vector<Packet> TCPBBRConnection::create_packets(int num_packets, double packet_l
     }
 
     // rtt a random number between 100 and 150
-    for (int i = 0; i < num_packets; i++) 
+    for (int i = 0; i < num_packets; i++)
+    {
         packets[i].rtt = 100 + (double) rand() / RAND_MAX * 50;
-    
+        total_rtt += packets[i].rtt;
+    }
     return packets;
 }
 
@@ -93,9 +97,10 @@ void TCPBBRConnection::simulation(int num_packets, float packet_loss_rate)
         packet_sent();
         Packet packet = packets[i];
         if (packet.is_lost)
-            cout <<"packet number " << packet.seq_num << " is lost"<<endl;
+            cout <<"packet number " << packet.seq_num << " is lost!"<<endl;
         lostPacketHandler(packet.is_lost);
-        cout << "the window size: " <<  int(cwnd) << endl;
+        total_packets += cwnd;
+        cout << "the window size in iteration " << i <<" :"<<int(cwnd) << endl;
     }
     
 }
@@ -107,6 +112,9 @@ void TCPBBRConnection::examine_simulation(int num_packets, double packet_loss_ra
     simulation(num_packets, packet_loss_rate);
     auto stop = chrono::high_resolution_clock::now();
     auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
- 
-    cout << "Time :"<< duration.count() << "microsecends" << endl;
+    
+    cout << "#######################################################################" << endl;
+    cout << "Total Packets :"<< total_packets << endl;
+    cout << "Total RTTs :"<< total_rtt << " milisecends" << endl;
+    cout << "Throughput :"<< (total_packets * 1000) / total_rtt<< endl;
 }
